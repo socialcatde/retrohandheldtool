@@ -1,7 +1,9 @@
 <template>
-  <Tutorial/>
+  <div>
+    <SheetsData />
+  </div>
 </template>
 
 <script>
-export default {}
+export default {};
 </script>
