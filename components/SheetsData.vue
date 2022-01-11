@@ -39,17 +39,17 @@ export default {
     pageNumber: 0,
   }),
   computed: {
-    ...mapGetters(["allHandhelds"]),
+    ...mapGetters(["allHandhelds", "filtered_items"]),
 
     /* Sliced den Handheld-Array auf 10 pro Seite */
     currentPageItems() {
-      return this.allHandhelds.slice(
+      return this.filtered_items.slice(
         this.pageNumber * this.perpage,
         this.pageNumber * this.perpage + this.perpage
       );
     },
     pageMax() {
-      return Math.round(this.allHandhelds.length / 10) - 1;
+      return Math.round(this.filtered_items.length / 10) - 1;
     },
   },
 

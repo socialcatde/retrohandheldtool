@@ -1,10 +1,15 @@
 export const state = () => ({
+  current_sort: "form_factor_landscape",
   allHandhelds: [],
 });
 
 export const mutations = {
   setHandhelds(state, allHandhelds) {
     state.allHandhelds = allHandhelds;
+  },
+
+  updateList(state, value) {
+    state.current_sort = value;
   },
 };
 
@@ -28,8 +33,22 @@ export const getters = {
   allHandhelds(state) {
     return state.allHandhelds;
   },
+  filtered_items(state) {
+    if (state.current_sort !== "all_handhelds") {
+      return [...state.allHandhelds].filter(
+        filter_functions[state.current_sort]
+      );
+    } else {
+      return state.allHandhelds;
+    }
+  },
+};
 
-  /* indexFinder: (state) => (merkmal) => {
-    return state.allHandhelds[0].findIndex((el) => el === merkmal);
-  }, */
+export const filter_functions = {
+  form_factor_landscape: (obj) => {
+    return obj["Form Factor"] === "Landscape";
+  },
+  form_factor_portrait: (obj) => {
+    return obj["Form Factor"] === "Portrait";
+  },
 };
