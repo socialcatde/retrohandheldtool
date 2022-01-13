@@ -1,5 +1,5 @@
 export const state = () => ({
-  current_sort: "form_factor_landscape",
+  current_sort: "all_handhelds",
   allHandhelds: [],
 });
 
@@ -10,7 +10,7 @@ export const mutations = {
 
   updateList(state, value) {
     state.current_sort = value;
-  },
+  } /* Updates Liste mit Value aus HandheldChoices component */,
 };
 
 export const actions = {
@@ -44,6 +44,7 @@ export const getters = {
   },
 };
 
+/* Alle Filterfunktionen */
 export const filter_functions = {
   form_factor_landscape: (obj) => {
     return obj["Form Factor"] === "Landscape";

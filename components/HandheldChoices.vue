@@ -49,7 +49,10 @@ export default {
 
   methods: {
     updateList(e) {
-      this.$store.commit("updateList", e.target.value);
+      this.$store.commit(
+        "updateList",
+        e.target.value
+      ); /* Updates Filter für Liste */
     },
   },
 };
