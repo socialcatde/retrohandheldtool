@@ -1,26 +1,22 @@
 export const state = () => ({
   current_sort: "form_factor_all",
   allHandhelds: [],
-  features_collection: {
-    aspect_ratio_object: {
-      features: [],
-      value: "Aspect Ratio",
-    },
-    performance_rating_object: {
-      features: [],
-      value: "Performance Rating",
-    },
-  },
   features_collection2: [
     {
       features: [],
-      value: "Aspect Ratio",
+      featureName: "Aspect Ratio",
     },
     {
       features: [],
-      value: "Performance Rating",
+      featureName: "Performance Rating",
+    },
+    {
+      features: [],
+      featureName: "Form Factor",
     },
   ],
+  whichComponentUpdates: "",
+  multipleChoiceFeatures: false,
 });
 
 export const mutations = {
@@ -28,36 +24,37 @@ export const mutations = {
     state.allHandhelds = allHandhelds;
   },
 
+  updateWhichComponent(state, compName) {
+    state.whichComponentUpdates = compName;
+  },
+
+  /* Updates Form Factor mit Value aus jeweiligen HandheldChoices component */
   updateList(state, value) {
     state.current_sort = value;
-  } /* Updates Liste mit Value aus jeweiligen HandheldChoices component */,
+  },
 
-  updateAspectRatio(state, value) {
-    if (state.features_collection2[0].features.includes(value) === false) {
-      state.features_collection2[0].features.push(value);
-      console.log(state.features_collection2[0].features);
-    } else {
-      const removedFeature = state.features_collection2[0].features.filter(
-        (val) => val !== value
-      );
-      state.features_collection2[0].features = removedFeature;
-      console.log(state.features_collection2[0].features);
-    }
-  } /* Updates Features mit Value aus jeweiligen HandheldChoices component und entfernt sie beim Checkbox unclick */,
+  /* Updates Features mit Value aus jeweiligen HandheldChoices component und entfernt sie beim Checkbox unclick */
+  /* Component gibt whichComponentUpdates durch. Das wird mit featureName verglichen und dann Feature hinzugefügt oder entfernt */
 
-  updatePerformanceRating(state, value) {
-    if (state.features_collection2[1].features.includes(value) === false) {
-      state.features_collection2[1].features.push(value);
-      console.log(state.features_collection2[1].features);
-    } else {
-      const removedFeature = state.features_collection2[1].features.filter(
-        (val) => val !== value
-      );
-      state.features_collection2[1].features = removedFeature;
-      console.log(state.features_collection2[1].features);
-    }
-  } /* Updates Features mit Value aus jeweiligen HandheldChoices component und entfernt sie beim Checkbox unclick */,
+  updateFeatureArrays(state, value) {
+    console.log(state.whichComponentUpdates);
+    return state.features_collection2.forEach((filter) => {
+      if (
+        filter.featureName == state.whichComponentUpdates &&
+        filter.features.includes(value) === false
+      ) {
+        filter.features.push(value);
+        console.log(filter.features);
+      } else {
+        const removedFeature = filter.features.filter((val) => val !== value);
+        filter.features = removedFeature;
+        console.log(filter.features);
+      }
+    });
+  },
 };
+
+/* Fetched die Google-Tabelle. Nur wenn compiliert wird??? checken! */
 
 export const actions = {
   async fetchAllHandhelds(context) {
@@ -82,7 +79,11 @@ export const getters = {
     return state.allHandhelds;
   },
 
-  /* Filtert die Liste mit den gewünschten Kategorien */
+  /* Filtert die Liste mit den gewünschten Features */
+  /* .every Method stellt sicher, dass jedes Array Element gecheckt wird und gibt boolean Wert zurück */
+  /* 1. Filter checkt Form Factor*/
+  /* 2. Filter checkt ob alle Arrays aus features_collection leer sind. Wenn ja, return true = einfach filteredArray ohne Änderungen */
+  /* 3. Filter checkt ob eines der features aus features_collection features array in den Werten des obj[filter.value] aus filteredArray vorkommt und returns it als filter  */
 
   filtered_items(state) {
     const filteredArray = [...state.allHandhelds].filter(
@@ -95,39 +96,9 @@ export const getters = {
           return true;
         }
 
-        return filter.features.includes(obj[filter.value]);
+        return filter.features.includes(obj[filter.featureName]);
       });
     });
-
-    if (
-      state.features_collection.aspect_ratio_object.features.length &&
-      state.features_collection.performance_rating_object.features.length
-    ) {
-      return filteredArray.filter(
-        (obj) =>
-          state.features_collection.aspect_ratio_object.features.includes(
-            obj[state.features_collection.aspect_ratio_object.value]
-          ) &&
-          state.features_collection.performance_rating_object.features.includes(
-            obj[state.features_collection.performance_rating_object.value]
-          )
-      );
-    } else if (
-      state.features_collection.aspect_ratio_object.features.length ||
-      state.features_collection.performance_rating_object.features.length
-    ) {
-      return filteredArray.filter(
-        (obj) =>
-          state.features_collection.aspect_ratio_object.features.includes(
-            obj[state.features_collection.aspect_ratio_object.value]
-          ) ||
-          state.features_collection.performance_rating_object.features.includes(
-            obj[state.features_collection.performance_rating_object.value]
-          )
-      );
-    } else {
-      return filteredArray;
-    }
   },
 };
 

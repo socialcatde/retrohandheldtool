@@ -20,7 +20,7 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 export default {
   data: () => ({}),
 
@@ -31,12 +31,14 @@ export default {
       const result = [...new Set(allAspect)];
       return result;
     },
+    ...mapState(["whichComponentUpdates"]),
   },
 
   methods: {
     updateFeatures(e) {
+      this.$store.commit("updateWhichComponent", "Aspect Ratio");
       this.$store.commit(
-        "updateAspectRatio",
+        "updateFeatureArrays",
         e.target.value
       ); /* Updates Features für Liste */
     },

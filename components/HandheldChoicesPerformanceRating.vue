@@ -37,8 +37,9 @@ export default {
 
   methods: {
     updateFeatures(e) {
+      this.$store.commit("updateWhichComponent", "Performance Rating");
       this.$store.commit(
-        "updatePerformanceRating",
+        "updateFeatureArrays",
         e.target.value
       ); /* Updates Features für Liste */
     },
