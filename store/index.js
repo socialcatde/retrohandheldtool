@@ -1,5 +1,4 @@
 export const state = () => ({
-  current_sort: "form_factor_all",
   allHandhelds: [],
   features_collection2: [
     {
@@ -16,7 +15,7 @@ export const state = () => ({
     },
   ],
   whichComponentUpdates: "",
-  multipleChoiceFeatures: false,
+  isSingleChoiceFeature: false,
 });
 
 export const mutations = {
@@ -24,13 +23,14 @@ export const mutations = {
     state.allHandhelds = allHandhelds;
   },
 
+  /* Component übermittelt seinen eigenen Namen für Zuordnung */
   updateWhichComponent(state, compName) {
     state.whichComponentUpdates = compName;
   },
 
-  /* Updates Form Factor mit Value aus jeweiligen HandheldChoices component */
-  updateList(state, value) {
-    state.current_sort = value;
+  /* Component übermittelt ob Featuremehrauswahl möglich ist */
+  updateSingleChoice(state, possible) {
+    state.isSingleChoiceFeature = possible;
   },
 
   /* Updates Features mit Value aus jeweiligen HandheldChoices component und entfernt sie beim Checkbox unclick */
@@ -43,8 +43,14 @@ export const mutations = {
         filter.featureName == state.whichComponentUpdates &&
         filter.features.includes(value) === false
       ) {
-        filter.features.push(value);
-        console.log(filter.features);
+        if (state.isSingleChoiceFeature) {
+          filter.features.splice(0, filter.features.length); //leert das Array, da single Choice Feature
+          filter.features.push(value);
+          console.log(filter.features);
+        } else {
+          filter.features.push(value);
+          console.log(filter.features);
+        }
       } else {
         const removedFeature = filter.features.filter((val) => val !== value);
         filter.features = removedFeature;
@@ -81,36 +87,21 @@ export const getters = {
 
   /* Filtert die Liste mit den gewünschten Features */
   /* .every Method stellt sicher, dass jedes Array Element gecheckt wird und gibt boolean Wert zurück */
-  /* 1. Filter checkt Form Factor*/
   /* 2. Filter checkt ob alle Arrays aus features_collection leer sind. Wenn ja, return true = einfach filteredArray ohne Änderungen */
   /* 3. Filter checkt ob eines der features aus features_collection features array in den Werten des obj[filter.value] aus filteredArray vorkommt und returns it als filter  */
 
   filtered_items(state) {
-    const filteredArray = [...state.allHandhelds].filter(
-      filter_functions[state.current_sort]
-    );
-
-    return filteredArray.filter((obj) => {
+    return state.allHandhelds.filter((obj) => {
       return state.features_collection2.every((filter) => {
-        if (filter.features.length === 0) {
+        if (
+          filter.features.length === 0 ||
+          filter.features == "All Handhelds"
+        ) {
           return true;
         }
 
         return filter.features.includes(obj[filter.featureName]);
       });
     });
-  },
-};
-
-/* Filterfunktionen in einem Objekt für Form Factor */
-export const filter_functions = {
-  form_factor_landscape: (obj) => {
-    return obj["Form Factor"] === "Landscape";
-  },
-  form_factor_portrait: (obj) => {
-    return obj["Form Factor"] === "Portrait";
-  },
-  form_factor_all: (obj) => {
-    return obj["Form Factor"] !== "blaaa"; // Hier ggf. noch verbesseren
   },
 };

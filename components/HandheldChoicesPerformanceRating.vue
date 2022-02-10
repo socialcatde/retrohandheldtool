@@ -30,13 +30,15 @@ export default {
       const allPerformance = this.allHandhelds.map(
         (a) => a["Performance Rating"]
       );
-      const result = [...new Set(allPerformance)];
+      let result = [...new Set(allPerformance)];
+      result = result.filter(Boolean); //Löscht alle falsy values
       return result;
     },
   },
 
   methods: {
     updateFeatures(e) {
+      this.$store.commit("updateSingleChoice", false);
       this.$store.commit("updateWhichComponent", "Performance Rating");
       this.$store.commit(
         "updateFeatureArrays",

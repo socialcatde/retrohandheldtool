@@ -20,7 +20,7 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   data: () => ({}),
 
@@ -28,14 +28,15 @@ export default {
     ...mapGetters(["allHandhelds"]),
     uniqueAspectRatios: function () {
       const allAspect = this.allHandhelds.map((a) => a["Aspect Ratio"]);
-      const result = [...new Set(allAspect)];
+      let result = [...new Set(allAspect)];
+      result = result.filter(Boolean); //Löscht alle falsy values
       return result;
     },
-    ...mapState(["whichComponentUpdates"]),
   },
 
   methods: {
     updateFeatures(e) {
+      this.$store.commit("updateSingleChoice", false);
       this.$store.commit("updateWhichComponent", "Aspect Ratio");
       this.$store.commit(
         "updateFeatureArrays",

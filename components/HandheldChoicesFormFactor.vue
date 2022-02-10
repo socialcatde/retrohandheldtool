@@ -2,55 +2,48 @@
   <div class="border rounded-md p-2 m-1">
     <div>Form Factor:</div>
     <div class="flex flex-col">
-      <div class="">
+      <div
+        class=""
+        v-for="value in uniqueFormFactor"
+        :key="value"
+        :value="value"
+      >
         <input
           type="radio"
-          id="portrait"
-          value="form_factor_portrait"
+          :id="value"
+          :value="value"
           v-model="picked"
           @change="updateList"
         />
-        <label for="portrait">Portrait</label>
-      </div>
-
-      <div class="">
-        <input
-          type="radio"
-          id="landscape"
-          value="form_factor_landscape"
-          v-model="picked"
-          @change="updateList"
-        />
-        <label for="landscape">Landscape</label>
-      </div>
-      <div class="">
-        <input
-          type="radio"
-          id="all"
-          value="form_factor_all"
-          v-model="picked"
-          @change="updateList"
-        />
-        <label for="all">All Form Factors</label>
+        <label :for="value">{{ value }}</label>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   data: () => ({
-    picked: "form_factor_all",
+    picked: "All Handhelds",
   }),
 
   computed: {
-    ...mapState(["current_sort"]),
+    ...mapGetters(["allHandhelds"]),
+    uniqueFormFactor: function () {
+      const allFormFactor = this.allHandhelds.map((a) => a["Form Factor"]);
+      let result = [...new Set(allFormFactor)];
+      result = result.filter(Boolean); //Löscht alle falsy values
+      result.unshift("All Handhelds"); //Fügt alle Handhelds hinzu
+      return result;
+    },
   },
 
   methods: {
     updateList(e) {
+      this.$store.commit("updateSingleChoice", true);
+      this.$store.commit("updateWhichComponent", "Form Factor");
       this.$store.commit(
-        "updateList",
+        "updateFeatureArrays",
         e.target.value
       ); /* Updates Filter für Liste */
     },
