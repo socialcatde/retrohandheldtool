@@ -13,6 +13,10 @@ export const state = () => ({
       features: [],
       featureName: "Form Factor",
     },
+    {
+      features: [],
+      featureName: "Emulation Limit",
+    },
   ],
   whichComponentUpdates: "",
   isSingleChoiceFeature: false,

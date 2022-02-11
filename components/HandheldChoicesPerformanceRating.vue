@@ -2,12 +2,7 @@
   <div class="border rounded-md p-2 m-1">
     <div>Performance Rating:</div>
     <div class="flex flex-col">
-      <div
-        class=""
-        v-for="value in uniquePerformanceRatings"
-        :key="value"
-        :value="value"
-      >
+      <div class="" v-for="value in uniqueFeatures" :key="value" :value="value">
         <input
           type="checkbox"
           :id="value"
@@ -26,11 +21,11 @@ export default {
 
   computed: {
     ...mapGetters(["allHandhelds"]),
-    uniquePerformanceRatings: function () {
-      const allPerformance = this.allHandhelds.map(
+    uniqueFeatures: function () {
+      const allOfFeature = this.allHandhelds.map(
         (a) => a["Performance Rating"]
       );
-      let result = [...new Set(allPerformance)];
+      let result = [...new Set(allOfFeature)];
       result = result.filter(Boolean); //Löscht alle falsy values
       return result;
     },

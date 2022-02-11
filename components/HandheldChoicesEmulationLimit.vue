@@ -1,6 +1,6 @@
 <template>
   <div class="border rounded-md p-2 m-1">
-    <div>Aspect Ratio:</div>
+    <div>Performance Rating:</div>
     <div class="flex flex-col">
       <div class="" v-for="value in uniqueFeatures" :key="value" :value="value">
         <input
@@ -22,7 +22,8 @@ export default {
   computed: {
     ...mapGetters(["allHandhelds"]),
     uniqueFeatures: function () {
-      const allOfFeature = this.allHandhelds.map((a) => a["Aspect Ratio"]);
+      const allOfFeature = this.allHandhelds.map((a) => a["Emulation Limit"]);
+      console.log(allOfFeature);
       let result = [...new Set(allOfFeature)];
       result = result.filter(Boolean); //Löscht alle falsy values
       return result;
@@ -32,7 +33,7 @@ export default {
   methods: {
     updateFeatures(e) {
       this.$store.commit("updateSingleChoice", false);
-      this.$store.commit("updateWhichComponent", "Aspect Ratio");
+      this.$store.commit("updateWhichComponent", "Emulation Limit");
       this.$store.commit(
         "updateFeatureArrays",
         e.target.value

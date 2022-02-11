@@ -2,12 +2,7 @@
   <div class="border rounded-md p-2 m-1">
     <div>Form Factor:</div>
     <div class="flex flex-col">
-      <div
-        class=""
-        v-for="value in uniqueFormFactor"
-        :key="value"
-        :value="value"
-      >
+      <div class="" v-for="value in uniqueFeatures" :key="value" :value="value">
         <input
           type="radio"
           :id="value"
@@ -29,9 +24,9 @@ export default {
 
   computed: {
     ...mapGetters(["allHandhelds"]),
-    uniqueFormFactor: function () {
-      const allFormFactor = this.allHandhelds.map((a) => a["Form Factor"]);
-      let result = [...new Set(allFormFactor)];
+    uniqueFeatures: function () {
+      const allOfFeature = this.allHandhelds.map((a) => a["Form Factor"]);
+      let result = [...new Set(allOfFeature)];
       result = result.filter(Boolean); //Löscht alle falsy values
       result.unshift("All Handhelds"); //Fügt alle Handhelds hinzu
       return result;
