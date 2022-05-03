@@ -15,7 +15,7 @@ export const state = () => ({
     },
     {
       features: [],
-      featureName: "Emulation Limit",
+      featureName: "OS",
     },
   ],
   whichComponentUpdates: "",

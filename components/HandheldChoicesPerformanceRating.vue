@@ -27,7 +27,8 @@ export default {
       );
       let result = [...new Set(allOfFeature)];
       result = result.filter(Boolean); //Löscht alle falsy values
-      return result;
+      const ascResult = result.sort((a, b) => a.length - b.length);
+      return ascResult;
     },
   },
 

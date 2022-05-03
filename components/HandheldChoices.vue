@@ -3,7 +3,7 @@
     <HandheldChoicesFormFactor />
     <HandheldChoicesAspectRatio />
     <HandheldChoicesPerformanceRating />
-    <HandheldChoicesEmulationLimit />
+    <HandheldChoicesOS />
   </div>
 </template>
 <script>
