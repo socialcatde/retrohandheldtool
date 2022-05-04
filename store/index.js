@@ -69,7 +69,7 @@ export const mutations = {
 export const actions = {
   async fetchAllHandhelds(context) {
     const response = await fetch(
-      "https://sheets.googleapis.com/v4/spreadsheets/1irg60f9qsZOkhp0cwOU7Cy4rJQeyusEUzTNQzhoTYTU/values/Handhelds!A1:BX1000?key=AIzaSyABFpPUDmnr8BJ78OrDRowurWvtwqufkVw"
+      `https://sheets.googleapis.com/v4/spreadsheets/1irg60f9qsZOkhp0cwOU7Cy4rJQeyusEUzTNQzhoTYTU/values/Handhelds!A1:BX1000?key=${this.$config.googleSheetsApiKey}`
     );
     const handheldInfo = await response.json();
     const handheldSingles = await handheldInfo.values;

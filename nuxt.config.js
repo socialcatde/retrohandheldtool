@@ -35,5 +35,11 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
   
-  target: 'static'
+  target: 'static',
+
+  publicRuntimeConfig: {
+    googleSheetsApiKey: process.env.SHEETS_API_KEY,
+    
+  },
 };
+
