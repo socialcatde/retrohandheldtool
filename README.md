@@ -2,7 +2,7 @@
 
 ## What is this?
 
-A work in progress tool for deciding on which retro gaming handheld to buy. It takes its data from a [Google spreadsheet](https://docs.google.com/spreadsheets/d/1irg60f9qsZOkhp0cwOU7Cy4rJQeyusEUzTNQzhoTYTU).
+A work in progress tool for deciding on which retro gaming handheld to buy. It takes its data from a [Google spreadsheet](https://docs.google.com/spreadsheets/d/1irg60f9qsZOkhp0cwOU7Cy4rJQeyusEUzTNQzhoTYTU). That means as long as the spreadsheet is up to date the tool should be too.
 
 ## Tools and Languages used
 
