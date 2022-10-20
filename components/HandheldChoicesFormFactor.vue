@@ -2,7 +2,7 @@
   <div class="border rounded-md p-2 m-1">
     <div>Form Factor:</div>
     <div class="flex flex-col">
-      <div class="" v-for="value in uniqueFeatures" :key="value" :value="value">
+      <div class="" v-for="value in choices" :key="value" :value="value">
         <input
           type="radio"
           :id="value"
@@ -20,18 +20,10 @@ import { mapGetters } from "vuex";
 export default {
   data: () => ({
     picked: "All Handhelds",
+    choices: ["All Handhelds", "Landscape", "Portrait", "Clamshell"],
   }),
 
-  computed: {
-    ...mapGetters(["allHandhelds"]),
-    uniqueFeatures: function () {
-      const allOfFeature = this.allHandhelds.map((a) => a["Form Factor"]);
-      let result = [...new Set(allOfFeature)];
-      result = result.filter(Boolean); //Löscht alle falsy values
-      result.unshift("All Handhelds"); //Fügt alle Handhelds hinzu
-      return result;
-    },
-  },
+  computed: {},
 
   methods: {
     updateList(e) {

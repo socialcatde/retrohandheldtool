@@ -41,7 +41,7 @@ export const mutations = {
   /* Component gibt whichComponentUpdates durch. Das wird mit featureName verglichen und dann Feature hinzugefügt oder entfernt */
 
   updateFeatureArrays(state, value) {
-    console.log(state.whichComponentUpdates);
+    /* console.log(state.whichComponentUpdates); */
     return state.features_collection2.forEach((filter) => {
       if (
         filter.featureName == state.whichComponentUpdates &&
@@ -50,21 +50,19 @@ export const mutations = {
         if (state.isSingleChoiceFeature) {
           filter.features.splice(0, filter.features.length); //leert das Array, da single Choice Feature
           filter.features.push(value);
-          console.log(filter.features);
+          /* console.log(filter.features); */
         } else {
           filter.features.push(value);
-          console.log(filter.features);
         }
       } else {
         const removedFeature = filter.features.filter((val) => val !== value);
         filter.features = removedFeature;
-        console.log(filter.features);
       }
     });
   },
 };
 
-/* Fetched die Google-Tabelle. Nur wenn compiliert wird??? checken! */
+/* Fetched die Google-Tabelle.*/
 
 export const actions = {
   async fetchAllHandhelds(context) {
@@ -90,21 +88,31 @@ export const getters = {
   },
 
   /* Filtert die Liste mit den gewünschten Features */
-  /* .every Method stellt sicher, dass jedes Array Element gecheckt wird und gibt boolean Wert zurück */
-  /* 2. Filter checkt ob alle Arrays aus features_collection leer sind. Wenn ja, return true = einfach filteredArray ohne Änderungen */
-  /* 3. Filter checkt ob eines der features aus features_collection features array in den Werten des obj[filter.value] aus filteredArray vorkommt und returns it als filter  */
+  /* 1. .every Method stellt sicher, dass jedes Array Element gecheckt wird und gibt boolean Wert zurück */
+  /* 2. Erstes if checkt ob alle Arrays aus features_collection leer sind. Wenn ja, return true = einfach filteredArray ohne Änderungen */
+  /* 3. Zweites if checkt ob der userChoice-Wert beim jeweiligen Handheld nicht undefined ist und checkt ob der Handheld den userChoice-Wert vollständig oder als substring beinhaltet  */
 
   filtered_items(state) {
-    return state.allHandhelds.filter((obj) => {
-      return state.features_collection2.every((filter) => {
+    return state.allHandhelds.filter((handheld) => {
+      return state.features_collection2.every((userChoice) => {
         if (
-          filter.features.length === 0 ||
-          filter.features == "All Handhelds"
+          userChoice.features.length === 0 ||
+          userChoice.features == "All Handhelds"
         ) {
           return true;
         }
 
-        return filter.features.includes(obj[filter.featureName]);
+        if (handheld[userChoice.featureName]) {
+          /* DIESER TEIL FUNKTIONIERT NOCH NICHT MIT DEN ANDEREN AUSWAHLEN  */
+          if (state.whichComponentUpdates == "Performance Rating") {
+            return userChoice.features.includes(
+              handheld[userChoice.featureName]
+            );
+          } else
+            return handheld[userChoice.featureName].includes(
+              userChoice.features.toString()
+            );
+        }
       });
     });
   },

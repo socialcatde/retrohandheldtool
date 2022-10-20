@@ -2,7 +2,7 @@
   <div class="border rounded-md p-2 m-1">
     <div>OS:</div>
     <div class="flex flex-col">
-      <div class="" v-for="value in uniqueFeatures" :key="value" :value="value">
+      <div class="" v-for="value in choices" :key="value" :value="value">
         <input
           type="checkbox"
           :id="value"
@@ -17,7 +17,22 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
-  data: () => ({}),
+  data: () => ({
+    choices: [
+      "Linux",
+      "Android",
+      "Windows",
+      "Batocera",
+      "EmuELEC",
+      "Lineage",
+      "RecalBox",
+      "351ELEC",
+      "ArkOS",
+      "SteamOS",
+      "µC/OS-II",
+      "Ubuntu",
+    ],
+  }),
 
   computed: {
     ...mapGetters(["allHandhelds"]),
